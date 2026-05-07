@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 {% block title %}{{ profile_user.username }} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head">
-    <div>
-        <p class="eyebrow">Author</p>
-        <h1>{{ profile_user.username }}</h1>
+<section class="section-head user-profile">
+    <div class="user-info">
+        {% if profile_user.avatar %}
+            <img src="{{ profile_user.avatar.url }}" alt="{{ profile_user.username }}" class="profile-avatar">
+        {% else %}
+            <div class="avatar-placeholder">{{ profile_user.username|first|upper }}</div>
+        {% endif %}
+        <div class="user-details">
+            <p class="eyebrow">Author</p>
+            <h1>{{ profile_user.username }}</h1>
+            {% if profile_user.bio %}
+                <p class="user-bio">{{ profile_user.bio }}</p>
+            {% endif %}
+            <p class="user-role">{{ profile_user.get_role_display }}</p>
+        </div>
     </div>
 </section>
 <div class="article-grid">

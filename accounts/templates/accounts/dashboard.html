@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Dashboard - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head">
-    <div>
-        <p class="eyebrow">Signed in as {{ user.username }}</p>
-        <h1>Dashboard</h1>
+<section class="section-head user-profile">
+    <div class="user-info">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="profile-avatar">
+        {% else %}
+            <div class="avatar-placeholder">{{ user.username|first|upper }}</div>
+        {% endif %}
+        <div class="user-details">
+            <p class="eyebrow">Signed in as {{ user.username }}</p>
+            <h1>Dashboard</h1>
+            {% if user.bio %}
+                <p class="user-bio">{{ user.bio }}</p>
+            {% endif %}
+            <p class="user-role">{{ user.get_role_display }}</p>
+        </div>
     </div>
     <div class="toolbar">
         <a class="button" href="{% url 'articles:create' %}">Create article</a>
