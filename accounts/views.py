@@ -1,9 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
+
+User = get_user_model()
 
 from accounts.forms import LoginForm, RegisterForm
 from accounts.utils import NEWS_ADMIN_GROUP, is_site_admin
