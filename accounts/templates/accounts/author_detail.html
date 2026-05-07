@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_user.username }} - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Author</p>
+        <h1>{{ profile_user.username }}</h1>
+    </div>
+</section>
+<div class="article-grid">
+    {% for article in articles %}
+        {% include "articles/_article_card.html" %}
+    {% empty %}
+        <p class="empty">No published articles.</p>
+    {% endfor %}
+</div>
+{% endblock %}

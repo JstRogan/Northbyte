@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Saved - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head"><h1>Saved articles</h1></section>
+<div class="article-grid">
+    {% for bookmark in bookmarks %}
+        {% with article=bookmark.article %}
+            {% include "articles/_article_card.html" %}
+        {% endwith %}
+    {% empty %}
+        <p class="empty">No saved articles yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

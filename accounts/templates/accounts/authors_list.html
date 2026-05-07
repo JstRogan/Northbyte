@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Authors - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head"><h1>Authors</h1></section>
+<div class="category-grid">
+    {% for author in authors %}
+        <a class="category-tile" href="{% url 'accounts:author_detail' author.username %}">{{ author.username }}</a>
+    {% empty %}
+        <p class="empty">No authors yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

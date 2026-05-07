@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Users - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head"><h1>User management</h1></section>
+<div class="table-panel">
+    <table>
+        <thead><tr><th>User</th><th>Status</th><th>Role</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for account in users %}
+            <tr>
+                <td>{{ account.username }}</td>
+                <td>{% if account.is_active %}Active{% else %}Banned{% endif %}</td>
+                <td>{% if account.is_superuser %}Super admin{% elif admin_group in account.groups.all %}Admin{% else %}User{% endif %}</td>
+                <td>
+                    <form method="post" action="{% url 'accounts:update_user_status' account.id %}" class="inline-actions">
+                        {% csrf_token %}
+                        {% if account.is_active %}
+                            <button name="action" value="ban" type="submit">Ban</button>
+                        {% else %}
+                            <button name="action" value="unban" type="submit">Unban</button>
+                        {% endif %}
+                        {% if user.is_superuser and not account.is_superuser %}
+                            <button name="action" value="promote" type="submit">Promote</button>
+                            <button name="action" value="demote" type="submit">Demote</button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

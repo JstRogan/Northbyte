@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} - Northbyte{% endblock %}
+{% block content %}
+<article class="article-detail">
+    <div class="detail-top">
+        <div>
+            <div class="meta-line">
+                <a href="{% url 'accounts:author_detail' article.author.username %}">{{ article.author.username }}</a>
+                <span>{{ article.created_at|date:"d M Y H:i" }}</span>
+                <a href="{% url 'articles:category_detail' article.category.slug %}">{{ article.category.name }}</a>
+                {% if article.status != "published" %}<span>{{ article.get_status_display }}</span>{% endif %}
+            </div>
+            <h1>{{ article.title }}</h1>
+        </div>
+        <div class="rating-box">
+            <strong>{{ article.average_rating }}</strong>
+            <span>{{ article.rating_count }} votes</span>
+        </div>
+    </div>
+    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="detail-image">
+    <p class="lead">{{ article.excerpt }}</p>
+    <div class="article-content">{{ article.content|linebreaks }}</div>
+
+    <div class="toolbar">
+        {% if user.is_authenticated and article.status == "published" %}
+            <form method="post" action="{% url 'articles:rate' article.slug %}" class="rating-form">
+                {% csrf_token %}
+                {% for score in "12345" %}
+                    <button type="submit" name="score" value="{{ score }}" class="{% if user_rating.score|stringformat:'s' == score %}active{% endif %}">{{ score }}</button>
+                {% endfor %}
+            </form>
+            <form method="post" action="{% url 'articles:toggle_bookmark' article.slug %}">
+                {% csrf_token %}
+                <button class="button secondary" type="submit">{% if is_bookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</button>
+            </form>
+        {% endif %}
+        {% if user == article.author or can_manage %}
+            <a class="button secondary" href="{% url 'articles:update' article.slug %}">Edit</a>
+            <a class="button danger" href="{% url 'articles:delete' article.slug %}">Delete</a>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

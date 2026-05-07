@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Signed in as {{ user.username }}</p>
+        <h1>Dashboard</h1>
+    </div>
+    <div class="toolbar">
+        <a class="button" href="{% url 'articles:create' %}">Create article</a>
+        <a class="button secondary" href="{% url 'articles:my_articles' %}">My articles</a>
+        {% if user.is_staff or user.is_superuser %}
+            <a class="button secondary" href="{% url 'articles:moderation_queue' %}">Moderation</a>
+            <a class="button secondary" href="{% url 'accounts:user_management' %}">Users</a>
+        {% endif %}
+    </div>
+</section>
+<div class="table-panel">
+    <table>
+        <thead><tr><th>Article</th><th>Category</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                <td>{{ article.category.name }}</td>
+                <td>{{ article.get_status_display }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3">No articles yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Delete article - Northbyte{% endblock %}
+{% block content %}
+<section class="narrow">
+    <h1>Delete article</h1>
+    <p>Delete "{{ article.title }}"?</p>
+    <form method="post" class="toolbar">
+        {% csrf_token %}
+        <button class="button danger" type="submit">Delete</button>
+        <a class="button secondary" href="{{ article.get_absolute_url }}">Cancel</a>
+    </form>
+</section>
+{% endblock %}

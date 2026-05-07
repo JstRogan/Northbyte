@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Moderation - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head"><h1>Moderation queue</h1></section>
+<div class="table-panel">
+    <table>
+        <thead><tr><th>Title</th><th>Author</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                <td>{{ article.author.username }}</td>
+                <td>{{ article.get_status_display }}</td>
+                <td>
+                    <form method="post" action="{% url 'articles:moderate' article.slug %}" class="inline-actions">
+                        {% csrf_token %}
+                        <button name="action" value="approve" type="submit">Approve</button>
+                        <button name="action" value="reject" type="submit">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No articles waiting for moderation.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

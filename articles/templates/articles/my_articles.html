@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My articles - Northbyte{% endblock %}
+{% block content %}
+<section class="section-head">
+    <h1>My articles</h1>
+    <a class="button" href="{% url 'articles:create' %}">Create article</a>
+</section>
+<div class="table-panel">
+    <table>
+        <thead><tr><th>Title</th><th>Category</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                <td>{{ article.category.name }}</td>
+                <td>{{ article.get_status_display }}</td>
+                <td><a href="{% url 'articles:update' article.slug %}">Edit</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No articles yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<article class="article-card">
+    <a href="{{ article.get_absolute_url }}" class="article-image-link">
+        <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-image">
+    </a>
+    <div class="article-card-body">
+        <div class="meta-line">
+            <a href="{% url 'articles:category_detail' article.category.slug %}">{{ article.category.name }}</a>
+            <span>{{ article.created_at|date:"d M Y" }}</span>
+        </div>
+        <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+        <p>{{ article.excerpt }}</p>
+        <div class="card-footer">
+            <a href="{% url 'accounts:author_detail' article.author.username %}">{{ article.author.username }}</a>
+            <span>Rating {{ article.average_rating }}</span>
+        </div>
+    </div>
+</article>
