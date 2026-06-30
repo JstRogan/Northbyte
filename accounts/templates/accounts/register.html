@@ -1,19 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Register - Northbyte{% endblock %}
-{% block content %}
-<section class="narrow">
-    <h1>Create account</h1>
-    <form method="post" class="form-panel">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-            <label>
-                <span>{{ field.label }}</span>
-                {{ field }}
-                {% if field.errors %}<small>{{ field.errors|striptags }}</small>{% endif %}
-            </label>
-        {% endfor %}
-        <button class="button" type="submit">Register</button>
-    </form>
-</section>
+{% load i18n %}
+{% block title %}{% trans "Регистрация" %} - Northbyte{% endblock %}
+{% block body %}
+<div class="flex min-h-screen">
+    {% include "partials/auth_aside.html" %}
+    <div class="flex w-full flex-col lg:w-1/2">
+        <div class="flex items-center justify-between p-6">
+            <a href="{% url 'articles:list' %}" class="font-mono text-sm text-muted-foreground hover:text-foreground">← {% trans "На главную" %}</a>
+            <button type="button" onclick="toggleTheme()" class="btn btn-ghost btn-icon" aria-label="{% trans 'Сменить тему' %}">
+                <span class="hidden text-base dark:inline">☾</span><span class="text-base dark:hidden">☀</span>
+            </button>
+        </div>
+        <div class="flex flex-1 items-center justify-center px-6 pb-16">
+            <div class="w-full max-w-sm motion-safe:animate-fade-in">
+                <h1 class="font-display text-3xl font-bold">{% trans "Создать аккаунт" %}</h1>
+                <p class="mb-8 mt-2 text-sm text-muted-foreground">{% trans "Присоединяйтесь к сообществу Northbyte" %}</p>
+                <form method="post" class="space-y-4" x-data="{ loading: false }" @submit="loading = true">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 field-error">{{ form.non_field_errors|striptags }}</div>
+                    {% endif %}
+                    {% include "components/field.html" with field=form.username %}
+                    {% include "components/field.html" with field=form.email %}
+                    {% include "components/password_field.html" with field=form.password %}
+                    {% include "components/password_field.html" with field=form.confirm_password %}
+                    <button type="submit" class="btn btn-primary w-full" :disabled="loading">
+                        <span x-show="!loading">{% trans "Зарегистрироваться" %}</span>
+                        <span x-show="loading" x-cloak class="inline-flex items-center gap-2">
+                            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+                            {% trans "Создание…" %}
+                        </span>
+                    </button>
+                </form>
+                <p class="mt-6 text-center text-sm text-muted-foreground">{% trans "Уже есть аккаунт?" %}
+                    <a href="{% url 'accounts:login' %}" class="font-medium text-primary hover:underline">{% trans "Войти" %}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,13 +1,16 @@
-{% extends "base.html" %}
-{% block title %}Delete article - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Удаление статьи" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="narrow">
-    <h1>Delete article</h1>
-    <p>Delete "{{ article.title }}"?</p>
-    <form method="post" class="toolbar">
-        {% csrf_token %}
-        <button class="button danger" type="submit">Delete</button>
-        <a class="button secondary" href="{{ article.get_absolute_url }}">Cancel</a>
-    </form>
+<section class="mx-auto max-w-md">
+    <div class="card p-6 text-center">
+        <h1 class="font-display text-2xl font-bold">{% trans "Удаление статьи" %}</h1>
+        <p class="mt-2 text-muted-foreground">{% blocktrans with title=article.title %}Удалить «{{ title }}»?{% endblocktrans %}</p>
+        <form method="post" class="mt-6 flex justify-center gap-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-destructive">{% trans "Удалить" %}</button>
+            <a href="{{ article.get_absolute_url }}" class="btn btn-secondary">{% trans "Отмена" %}</a>
+        </form>
+    </div>
 </section>
 {% endblock %}

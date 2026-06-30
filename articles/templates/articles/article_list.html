@@ -1,33 +1,30 @@
-{% extends "base.html" %}
-{% block title %}{{ page_title|default:"Articles" }} - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% if page_title %}{{ page_title }}{% else %}{% trans "Свежие статьи" %}{% endif %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head">
+<section class="mb-8 flex flex-wrap items-end justify-between gap-4">
     <div>
-        <p class="eyebrow">Editorial technology journal</p>
-        <h1>{{ page_title|default:"Latest articles" }}</h1>
+        <p class="font-mono text-xs uppercase tracking-widest text-primary">{% trans "Журнал о технологиях" %}</p>
+        <h1 class="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">{% if page_title %}{{ page_title }}{% else %}{% trans "Свежие статьи" %}{% endif %}</h1>
     </div>
     {% if user.is_authenticated %}
-        <a class="button" href="{% url 'articles:create' %}">Create article</a>
+        <a href="{% url 'articles:create' %}" class="btn btn-primary">{% trans "Создать статью" %}</a>
     {% endif %}
 </section>
 
 {% if page_obj %}
-    <div class="article-grid">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {% for article in page_obj %}
             {% include "articles/_article_card.html" %}
         {% empty %}
-            <p class="empty">No articles yet.</p>
+            <p class="font-mono text-sm text-muted-foreground">{% trans "Пока нет статей." %}</p>
         {% endfor %}
     </div>
     {% if page_obj.has_other_pages %}
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            {% endif %}
-            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            {% endif %}
+        <div class="mt-10 flex items-center justify-center gap-4 font-mono text-sm text-muted-foreground">
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="text-primary hover:underline">← {% trans "Назад" %}</a>{% endif %}
+            <span>{% blocktrans with n=page_obj.number total=page_obj.paginator.num_pages %}Стр. {{ n }} из {{ total }}{% endblocktrans %}</span>
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="text-primary hover:underline">{% trans "Вперёд" %} →</a>{% endif %}
         </div>
     {% endif %}
 {% endif %}

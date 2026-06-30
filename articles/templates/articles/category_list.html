@@ -1,10 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Categories - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Категории" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head"><h1>Categories</h1></section>
-<div class="category-grid">
+<h1 class="mb-8 font-display text-3xl font-bold">{% trans "Категории" %}</h1>
+<div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
     {% for category in categories %}
-        <a class="category-tile" href="{% url 'articles:category_detail' category.slug %}">{{ category.name }}</a>
+        <a href="{% url 'articles:category_detail' category.slug %}"
+           class="card flex items-center gap-2 p-5 font-mono transition-all hover:-translate-y-1 hover:border-primary">
+            <span class="text-primary">#</span>{{ category.name }}
+        </a>
     {% endfor %}
 </div>
 {% endblock %}

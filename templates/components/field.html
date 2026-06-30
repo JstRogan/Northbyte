@@ -1,0 +1,7 @@
+{% comment %}Reusable form field row. Expects: field{% endcomment %}
+<div class="space-y-1.5">
+    <label for="{{ field.id_for_label }}" class="field-label">{{ field.label }}</label>
+    {{ field }}
+    {% if field.help_text %}<p class="text-xs text-muted-foreground">{{ field.help_text }}</p>{% endif %}
+    {% if field.errors %}<p class="field-error">{{ field.errors|striptags }}</p>{% endif %}
+</div>

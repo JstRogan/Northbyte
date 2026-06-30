@@ -1,26 +1,34 @@
-{% extends "base.html" %}
-{% block title %}Moderation - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Модерация" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head"><h1>Moderation queue</h1></section>
-<div class="table-panel">
-    <table>
-        <thead><tr><th>Title</th><th>Author</th><th>Status</th><th>Actions</th></tr></thead>
+<h1 class="mb-6 font-display text-2xl font-bold">{% trans "Очередь модерации" %}</h1>
+<div class="card overflow-x-auto">
+    <table class="w-full text-sm">
+        <thead>
+            <tr class="border-b border-border text-left font-mono text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="px-5 py-3">{% trans "Заголовок" %}</th>
+                <th class="px-5 py-3">{% trans "Автор" %}</th>
+                <th class="px-5 py-3">{% trans "Статус" %}</th>
+                <th class="px-5 py-3">{% trans "Действия" %}</th>
+            </tr>
+        </thead>
         <tbody>
         {% for article in articles %}
-            <tr>
-                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
-                <td>{{ article.author.username }}</td>
-                <td>{{ article.get_status_display }}</td>
-                <td>
-                    <form method="post" action="{% url 'articles:moderate' article.slug %}" class="inline-actions">
+            <tr class="border-b border-border last:border-0">
+                <td class="px-5 py-3"><a href="{{ article.get_absolute_url }}" class="font-medium hover:text-primary">{{ article.title }}</a></td>
+                <td class="px-5 py-3"><a href="{% url 'accounts:author_detail' article.author.username %}" class="font-mono text-xs text-muted-foreground hover:text-primary">@{{ article.author.username }}</a></td>
+                <td class="px-5 py-3"><span class="chip-status">{{ article.get_status_display }}</span></td>
+                <td class="px-5 py-3">
+                    <form method="post" action="{% url 'articles:moderate' article.slug %}" class="flex flex-wrap gap-2">
                         {% csrf_token %}
-                        <button name="action" value="approve" type="submit">Approve</button>
-                        <button name="action" value="reject" type="submit">Reject</button>
+                        <button name="action" value="approve" class="btn btn-secondary btn-sm">{% trans "Одобрить" %}</button>
+                        <button name="action" value="reject" class="btn btn-destructive btn-sm">{% trans "Отклонить" %}</button>
                     </form>
                 </td>
             </tr>
         {% empty %}
-            <tr><td colspan="4">No articles waiting for moderation.</td></tr>
+            <tr><td colspan="4" class="px-5 py-6 text-center font-mono text-sm text-muted-foreground">{% trans "Нет статей на модерации." %}</td></tr>
         {% endfor %}
         </tbody>
     </table>

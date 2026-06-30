@@ -1,42 +1,40 @@
-{% extends "base.html" %}
+{% extends "base_app.html" %}
+{% load i18n %}
 {% block title %}{{ article.title }} - Northbyte{% endblock %}
 {% block content %}
-<article class="article-detail">
-    <div class="detail-top">
-        <div>
-            <div class="meta-line">
-                <a href="{% url 'accounts:author_detail' article.author.username %}">{{ article.author.username }}</a>
-                <span>{{ article.created_at|date:"d M Y H:i" }}</span>
-                <a href="{% url 'articles:category_detail' article.category.slug %}">{{ article.category.name }}</a>
-                {% if article.status != "published" %}<span>{{ article.get_status_display }}</span>{% endif %}
-            </div>
-            <h1>{{ article.title }}</h1>
+<article class="mx-auto max-w-3xl motion-safe:animate-fade-in">
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{% url 'articles:category_detail' article.category.slug %}" class="chip-category">{{ article.category.name }}</a>
+            <span class="font-mono text-xs text-muted-foreground">{{ article.created_at|date:"d.m.Y H:i" }}</span>
+            <span class="chip-rating">★ {{ article.average_rating }} · {{ article.rating_count }}</span>
+            {% if article.status != "published" %}<span class="chip-status">{{ article.get_status_display }}</span>{% endif %}
         </div>
-        <div class="rating-box">
-            <strong>{{ article.average_rating }}</strong>
-            <span>{{ article.rating_count }} votes</span>
+        <h1 class="font-display text-3xl font-bold leading-tight md:text-4xl">{{ article.title }}</h1>
+        <div class="flex items-center gap-3">
+            <span class="avatar h-10 w-10 text-sm">
+                {% if article.author.avatar %}<img src="{{ article.author.avatar.url }}" alt="" class="h-full w-full object-cover">{% else %}{{ article.author.username|first|upper }}{% endif %}
+            </span>
+            <a href="{% url 'accounts:author_detail' article.author.username %}" class="font-mono text-sm hover:text-primary">@{{ article.author.username }}</a>
         </div>
     </div>
-    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="detail-image">
-    <p class="lead">{{ article.excerpt }}</p>
-    <div class="article-content">{{ article.content|linebreaks }}</div>
 
-    <div class="toolbar">
+    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="my-8 aspect-[21/9] w-full rounded-xl border border-border bg-muted object-cover">
+
+    <p class="text-lg text-muted-foreground">{{ article.excerpt }}</p>
+    <div class="mt-6 space-y-4 text-[1.05rem] leading-relaxed text-foreground/90">{{ article.content|linebreaks }}</div>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3 border-t border-border pt-6">
         {% if user.is_authenticated and article.status == "published" %}
-            <form method="post" action="{% url 'articles:rate' article.slug %}" class="rating-form">
-                {% csrf_token %}
-                {% for score in "12345" %}
-                    <button type="submit" name="score" value="{{ score }}" class="{% if user_rating.score|stringformat:'s' == score %}active{% endif %}">{{ score }}</button>
-                {% endfor %}
-            </form>
+            {% include "components/star_rating.html" %}
             <form method="post" action="{% url 'articles:toggle_bookmark' article.slug %}">
                 {% csrf_token %}
-                <button class="button secondary" type="submit">{% if is_bookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</button>
+                <button type="submit" class="btn btn-secondary btn-sm">{% if is_bookmarked %}{% trans "Убрать из закладок" %}{% else %}{% trans "В закладки" %}{% endif %}</button>
             </form>
         {% endif %}
         {% if user == article.author or can_manage %}
-            <a class="button secondary" href="{% url 'articles:update' article.slug %}">Edit</a>
-            <a class="button danger" href="{% url 'articles:delete' article.slug %}">Delete</a>
+            <a href="{% url 'articles:update' article.slug %}" class="btn btn-secondary btn-sm">{% trans "Изменить" %}</a>
+            <a href="{% url 'articles:delete' article.slug %}" class="btn btn-destructive btn-sm">{% trans "Удалить" %}</a>
         {% endif %}
     </div>
 </article>

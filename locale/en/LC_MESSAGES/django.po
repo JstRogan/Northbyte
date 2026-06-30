@@ -1,0 +1,285 @@
+# Northbyte English translation.
+# Copyright (C) 2026 Northbyte.
+# This file is distributed under the same license as the Northbyte package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Northbyte 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-06-27 16:00+0000\n"
+"Last-Translator: Northbyte\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Имя пользователя"
+msgstr "Username"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Пароль"
+msgstr "Password"
+
+msgid "Подтвердите пароль"
+msgstr "Confirm password"
+
+msgid "Пользователь с таким именем уже существует."
+msgstr "A user with this username already exists."
+
+msgid "Пользователь с таким email уже существует."
+msgstr "A user with this email already exists."
+
+msgid "Пароли не совпадают."
+msgstr "Passwords do not match."
+
+msgid "Этот аккаунт заблокирован."
+msgstr "This account is banned."
+
+msgid "Супер админ"
+msgstr "Super admin"
+
+msgid "Статьи автора"
+msgstr "Author's articles"
+
+msgid "Пока нет опубликованных статей."
+msgstr "No published articles yet."
+
+msgid "Авторы"
+msgstr "Authors"
+
+msgid "Пока нет авторов."
+msgstr "No authors yet."
+
+msgid "Кабинет"
+msgstr "Dashboard"
+
+msgid "Создать статью"
+msgstr "Create article"
+
+msgid "Мои статьи"
+msgstr "My articles"
+
+msgid "Модерация"
+msgstr "Moderation"
+
+msgid "Пользователи"
+msgstr "Users"
+
+msgid "Статья"
+msgstr "Article"
+
+msgid "Категория"
+msgstr "Category"
+
+msgid "Статус"
+msgstr "Status"
+
+msgid "Пока нет статей."
+msgstr "No articles yet."
+
+msgid "Вход"
+msgstr "Log in"
+
+msgid "На главную"
+msgstr "Home"
+
+msgid "Сменить тему"
+msgstr "Switch theme"
+
+msgid "С возвращением"
+msgstr "Welcome back"
+
+msgid "Войдите в свой аккаунт Northbyte"
+msgstr "Log in to your Northbyte account"
+
+msgid "Войти"
+msgstr "Log in"
+
+msgid "Вход…"
+msgstr "Signing in…"
+
+msgid "Нет аккаунта?"
+msgstr "No account yet?"
+
+msgid "Регистрация"
+msgstr "Sign up"
+
+msgid "Создать аккаунт"
+msgstr "Create account"
+
+msgid "Присоединяйтесь к сообществу Northbyte"
+msgstr "Join the Northbyte community"
+
+msgid "Зарегистрироваться"
+msgstr "Sign up"
+
+msgid "Создание…"
+msgstr "Creating…"
+
+msgid "Уже есть аккаунт?"
+msgstr "Already have an account?"
+
+msgid "Управление пользователями"
+msgstr "User management"
+
+msgid "Пользователь"
+msgstr "User"
+
+msgid "Роль"
+msgstr "Role"
+
+msgid "Действия"
+msgstr "Actions"
+
+msgid "Заблокирован"
+msgstr "Banned"
+
+msgid "Активен"
+msgstr "Active"
+
+msgid "Разблокировать"
+msgstr "Unban"
+
+msgid "Заблокировать"
+msgstr "Ban"
+
+msgid "Назначить админом"
+msgstr "Make admin"
+
+msgid "Снять админа"
+msgstr "Remove admin"
+
+msgid "Управлять супер админом может только супер админ."
+msgstr "Only a super admin can manage another super admin."
+
+msgid "Действие недоступно."
+msgstr "This action is not allowed."
+
+msgid "Удаление статьи"
+msgstr "Delete article"
+
+#, python-format
+msgid "Удалить «%(title)s»?"
+msgstr "Delete “%(title)s”?"
+
+msgid "Удалить"
+msgstr "Delete"
+
+msgid "Отмена"
+msgstr "Cancel"
+
+msgid "Убрать из закладок"
+msgstr "Remove bookmark"
+
+msgid "В закладки"
+msgstr "Bookmark"
+
+msgid "Изменить"
+msgstr "Edit"
+
+msgid "Редактирование статьи"
+msgstr "Edit article"
+
+msgid "Новая статья"
+msgstr "New article"
+
+msgid "Сохранить"
+msgstr "Save"
+
+msgid "Свежие статьи"
+msgstr "Latest articles"
+
+msgid "Журнал о технологиях"
+msgstr "Technology journal"
+
+msgid "Назад"
+msgstr "Previous"
+
+#, python-format
+msgid "Стр. %(n)s из %(total)s"
+msgstr "Page %(n)s of %(total)s"
+
+msgid "Вперёд"
+msgstr "Next"
+
+msgid "Закладки"
+msgstr "Bookmarks"
+
+msgid "В закладках пока пусто."
+msgstr "No bookmarks yet."
+
+msgid "Категории"
+msgstr "Categories"
+
+msgid "Очередь модерации"
+msgstr "Moderation queue"
+
+msgid "Заголовок"
+msgstr "Title"
+
+msgid "Автор"
+msgstr "Author"
+
+msgid "Одобрить"
+msgstr "Approve"
+
+msgid "Отклонить"
+msgstr "Reject"
+
+msgid "Нет статей на модерации."
+msgstr "No articles awaiting moderation."
+
+msgid "Статья сохранена."
+msgstr "Article saved."
+
+msgid "Редактировать можно только свои статьи."
+msgstr "You can edit only your own articles."
+
+msgid "Статья обновлена."
+msgstr "Article updated."
+
+msgid "Удалять можно только свои статьи."
+msgstr "You can delete only your own articles."
+
+msgid "Статья удалена."
+msgstr "Article deleted."
+
+msgid "Оценка должна быть от 1 до 5."
+msgstr "Rating must be from 1 to 5."
+
+msgid "Популярное"
+msgstr "Popular"
+
+msgid "Эта статья ожидает модерации."
+msgstr "This article is awaiting moderation."
+
+msgid "Оценить"
+msgstr "Rate"
+
+msgid "Площадка для тех, кто пишет код и про код."
+msgstr "A place for those who write code and write about it."
+
+msgid "Статьи о backend, frontend, AI и безопасности"
+msgstr "Articles on backend, frontend, AI and security"
+
+msgid "Оценки, рейтинги и закладки"
+msgstr "Ratings, scores and bookmarks"
+
+msgid "Сообщество авторов и модерация"
+msgstr "A community of authors with moderation"
+
+msgid "Технологии · разработка · безопасность"
+msgstr "Technology · development · security"
+
+msgid "Статьи"
+msgstr "Articles"
+
+msgid "Выйти"
+msgstr "Log out"
+
+msgid "Меню"
+msgstr "Menu"

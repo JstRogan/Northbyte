@@ -1,23 +1,31 @@
-{% extends "base.html" %}
-{% block title %}My articles - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Мои статьи" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head">
-    <h1>My articles</h1>
-    <a class="button" href="{% url 'articles:create' %}">Create article</a>
+<section class="mb-6 flex items-center justify-between gap-4">
+    <h1 class="font-display text-2xl font-bold">{% trans "Мои статьи" %}</h1>
+    <a href="{% url 'articles:create' %}" class="btn btn-primary">{% trans "Создать статью" %}</a>
 </section>
-<div class="table-panel">
-    <table>
-        <thead><tr><th>Title</th><th>Category</th><th>Status</th><th></th></tr></thead>
+<div class="card overflow-x-auto">
+    <table class="w-full text-sm">
+        <thead>
+            <tr class="border-b border-border text-left font-mono text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="px-5 py-3">{% trans "Заголовок" %}</th>
+                <th class="px-5 py-3">{% trans "Категория" %}</th>
+                <th class="px-5 py-3">{% trans "Статус" %}</th>
+                <th class="px-5 py-3"></th>
+            </tr>
+        </thead>
         <tbody>
         {% for article in articles %}
-            <tr>
-                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
-                <td>{{ article.category.name }}</td>
-                <td>{{ article.get_status_display }}</td>
-                <td><a href="{% url 'articles:update' article.slug %}">Edit</a></td>
+            <tr class="border-b border-border last:border-0">
+                <td class="px-5 py-3"><a href="{{ article.get_absolute_url }}" class="font-medium hover:text-primary">{{ article.title }}</a></td>
+                <td class="px-5 py-3 text-muted-foreground">{{ article.category.name }}</td>
+                <td class="px-5 py-3"><span class="chip-status">{{ article.get_status_display }}</span></td>
+                <td class="px-5 py-3 text-right"><a href="{% url 'articles:update' article.slug %}" class="font-mono text-xs text-primary hover:underline">{% trans "Изменить" %}</a></td>
             </tr>
         {% empty %}
-            <tr><td colspan="4">No articles yet.</td></tr>
+            <tr><td colspan="4" class="px-5 py-6 text-center font-mono text-sm text-muted-foreground">{% trans "Пока нет статей." %}</td></tr>
         {% endfor %}
         </tbody>
     </table>

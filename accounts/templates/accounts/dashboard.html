@@ -1,43 +1,45 @@
-{% extends "base.html" %}
-{% block title %}Dashboard - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Кабинет" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head user-profile">
-    <div class="user-info">
-        {% if user.avatar %}
-            <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="profile-avatar">
-        {% else %}
-            <div class="avatar-placeholder">{{ user.username|first|upper }}</div>
-        {% endif %}
-        <div class="user-details">
-            <p class="eyebrow">Signed in as {{ user.username }}</p>
-            <h1>Dashboard</h1>
-            {% if user.bio %}
-                <p class="user-bio">{{ user.bio }}</p>
-            {% endif %}
-            <p class="user-role">{{ user.get_role_display }}</p>
-        </div>
+<div class="flex items-center gap-5">
+    <span class="avatar h-20 w-20 text-3xl">
+        {% if user.avatar %}<img src="{{ user.avatar.url }}" alt="" class="h-full w-full object-cover">{% else %}{{ user.username|first|upper }}{% endif %}
+    </span>
+    <div>
+        <p class="font-mono text-xs uppercase tracking-wide text-muted-foreground">{% if user.is_superuser %}{% trans "Супер админ" %}{% else %}{{ user.get_role_display }}{% endif %}</p>
+        <h1 class="font-display text-3xl font-bold">@{{ user.username }}</h1>
+        {% if user.bio %}<p class="mt-1 max-w-xl text-muted-foreground">{{ user.bio }}</p>{% endif %}
     </div>
-    <div class="toolbar">
-        <a class="button" href="{% url 'articles:create' %}">Create article</a>
-        <a class="button secondary" href="{% url 'articles:my_articles' %}">My articles</a>
-        {% if user.is_staff or user.is_superuser %}
-            <a class="button secondary" href="{% url 'articles:moderation_queue' %}">Moderation</a>
-            <a class="button secondary" href="{% url 'accounts:user_management' %}">Users</a>
-        {% endif %}
-    </div>
-</section>
-<div class="table-panel">
-    <table>
-        <thead><tr><th>Article</th><th>Category</th><th>Status</th></tr></thead>
+</div>
+
+<div class="my-7 flex flex-wrap gap-3">
+    <a href="{% url 'articles:create' %}" class="btn btn-primary">{% trans "Создать статью" %}</a>
+    <a href="{% url 'articles:my_articles' %}" class="btn btn-secondary">{% trans "Мои статьи" %}</a>
+    {% if user.is_site_admin %}
+        <a href="{% url 'articles:moderation_queue' %}" class="btn btn-secondary">{% trans "Модерация" %}</a>
+        <a href="{% url 'accounts:user_management' %}" class="btn btn-secondary">{% trans "Пользователи" %}</a>
+    {% endif %}
+</div>
+
+<div class="card overflow-x-auto">
+    <table class="w-full text-sm">
+        <thead>
+            <tr class="border-b border-border text-left font-mono text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="px-5 py-3">{% trans "Статья" %}</th>
+                <th class="px-5 py-3">{% trans "Категория" %}</th>
+                <th class="px-5 py-3">{% trans "Статус" %}</th>
+            </tr>
+        </thead>
         <tbody>
         {% for article in articles %}
-            <tr>
-                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
-                <td>{{ article.category.name }}</td>
-                <td>{{ article.get_status_display }}</td>
+            <tr class="border-b border-border last:border-0">
+                <td class="px-5 py-3"><a href="{{ article.get_absolute_url }}" class="font-medium hover:text-primary">{{ article.title }}</a></td>
+                <td class="px-5 py-3 text-muted-foreground">{{ article.category.name }}</td>
+                <td class="px-5 py-3"><span class="chip-status">{{ article.get_status_display }}</span></td>
             </tr>
         {% empty %}
-            <tr><td colspan="3">No articles yet.</td></tr>
+            <tr><td colspan="3" class="px-5 py-6 text-center font-mono text-sm text-muted-foreground">{% trans "Пока нет статей." %}</td></tr>
         {% endfor %}
         </tbody>
     </table>

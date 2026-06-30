@@ -1,0 +1,75 @@
+{% load i18n %}
+<header class="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur" x-data="{ mobile: false }">
+    <nav class="container flex h-16 items-center gap-3">
+        <a href="{% url 'articles:list' %}" class="font-mono text-lg font-medium tracking-tight">northbyte<span class="caret">▮</span></a>
+
+        <div class="ml-3 hidden items-center gap-1 md:flex">
+            <a href="{% url 'articles:list' %}" class="nav-link">{% trans "Статьи" %}</a>
+            <a href="{% url 'articles:popular' %}" class="nav-link">{% trans "Популярное" %}</a>
+            <a href="{% url 'articles:categories' %}" class="nav-link">{% trans "Категории" %}</a>
+            <a href="{% url 'accounts:authors_list' %}" class="nav-link">{% trans "Авторы" %}</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'articles:bookmarks' %}" class="nav-link">{% trans "Закладки" %}</a>
+            {% endif %}
+        </div>
+
+        <div class="ml-auto flex items-center gap-2">
+            <button type="button" onclick="toggleTheme()" class="btn btn-ghost btn-icon" aria-label="{% trans 'Сменить тему' %}">
+                <span class="hidden text-base dark:inline">☾</span><span class="text-base dark:hidden">☀</span>
+            </button>
+
+            <form action="{% url 'set_language' %}" method="post" class="seg">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button name="language" value="ru" class="seg-btn {% if LANGUAGE_CODE == 'ru' %}seg-btn-active{% endif %}">RU</button>
+                <button name="language" value="en" class="seg-btn {% if LANGUAGE_CODE == 'en' %}seg-btn-active{% endif %}">EN</button>
+            </form>
+
+            {% if user.is_authenticated %}
+                <div class="relative" x-data="{ open: false }" @keydown.escape.window="open = false">
+                    <button @click="open = !open" class="avatar h-9 w-9 text-sm" aria-haspopup="true" :aria-expanded="open">
+                        {% if user.avatar %}<img src="{{ user.avatar.url }}" alt="" class="h-full w-full object-cover">{% else %}{{ user.username|first|upper }}{% endif %}
+                    </button>
+                    <div x-show="open" x-transition @click.outside="open = false" class="dropdown-menu" style="display:none">
+                        <div class="px-3 py-2">
+                            <p class="truncate text-sm font-medium">@{{ user.username }}</p>
+                            <p class="font-mono text-xs text-muted-foreground">{% if user.is_superuser %}{% trans "Супер админ" %}{% else %}{{ user.get_role_display }}{% endif %}</p>
+                        </div>
+                        <div class="my-1 h-px bg-border"></div>
+                        <a href="{% url 'accounts:dashboard' %}" class="dropdown-item">{% trans "Кабинет" %}</a>
+                        <a href="{% url 'articles:my_articles' %}" class="dropdown-item">{% trans "Мои статьи" %}</a>
+                        <a href="{% url 'articles:bookmarks' %}" class="dropdown-item">{% trans "Закладки" %}</a>
+                        {% if user.is_site_admin %}
+                            <a href="{% url 'articles:moderation_queue' %}" class="dropdown-item">{% trans "Модерация" %}</a>
+                            <a href="{% url 'accounts:user_management' %}" class="dropdown-item">{% trans "Пользователи" %}</a>
+                        {% endif %}
+                        <div class="my-1 h-px bg-border"></div>
+                        <form method="post" action="{% url 'accounts:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item w-full text-destructive">{% trans "Выйти" %}</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="btn btn-ghost btn-sm hidden sm:inline-flex">{% trans "Войти" %}</a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-sm">{% trans "Регистрация" %}</a>
+            {% endif %}
+
+            <button type="button" class="btn btn-ghost btn-icon md:hidden" @click="mobile = !mobile" aria-label="{% trans 'Меню' %}">
+                <span class="text-lg">☰</span>
+            </button>
+        </div>
+    </nav>
+
+    <div x-show="mobile" x-transition @click="mobile = false" class="border-t border-border md:hidden" style="display:none">
+        <div class="container flex flex-col gap-1 py-3">
+            <a href="{% url 'articles:list' %}" class="nav-link">{% trans "Статьи" %}</a>
+            <a href="{% url 'articles:popular' %}" class="nav-link">{% trans "Популярное" %}</a>
+            <a href="{% url 'articles:categories' %}" class="nav-link">{% trans "Категории" %}</a>
+            <a href="{% url 'accounts:authors_list' %}" class="nav-link">{% trans "Авторы" %}</a>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:login' %}" class="nav-link">{% trans "Войти" %}</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

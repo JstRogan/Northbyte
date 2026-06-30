@@ -1,12 +1,17 @@
-{% extends "base.html" %}
-{% block title %}Authors - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% trans "Авторы" %} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head"><h1>Authors</h1></section>
-<div class="category-grid">
+<h1 class="mb-8 font-display text-3xl font-bold">{% trans "Авторы" %}</h1>
+<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
     {% for author in authors %}
-        <a class="category-tile" href="{% url 'accounts:author_detail' author.username %}">{{ author.username }}</a>
+        <a href="{% url 'accounts:author_detail' author.username %}"
+           class="card flex items-center gap-3 p-4 transition-all hover:-translate-y-1 hover:border-primary">
+            <span class="avatar h-10 w-10 text-sm">{% if author.avatar %}<img src="{{ author.avatar.url }}" alt="" class="h-full w-full object-cover">{% else %}{{ author.username|first|upper }}{% endif %}</span>
+            <span class="truncate font-mono text-sm">@{{ author.username }}</span>
+        </a>
     {% empty %}
-        <p class="empty">No authors yet.</p>
+        <p class="font-mono text-sm text-muted-foreground">{% trans "Пока нет авторов." %}</p>
     {% endfor %}
 </div>
 {% endblock %}

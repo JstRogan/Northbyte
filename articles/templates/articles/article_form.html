@@ -1,19 +1,16 @@
-{% extends "base.html" %}
-{% block title %}{% if mode == "edit" %}Edit{% else %}Create{% endif %} article - Northbyte{% endblock %}
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block title %}{% if mode == "edit" %}{% trans "Редактирование статьи" %}{% else %}{% trans "Новая статья" %}{% endif %} - Northbyte{% endblock %}
 {% block content %}
-<section class="narrow">
-    <h1>{% if mode == "edit" %}Edit article{% else %}Create article{% endif %}</h1>
-    <form method="post" class="form-panel">
+<section class="mx-auto max-w-2xl">
+    <h1 class="mb-6 font-display text-2xl font-bold">{% if mode == "edit" %}{% trans "Редактирование статьи" %}{% else %}{% trans "Новая статья" %}{% endif %}</h1>
+    <form method="post" class="card space-y-5 p-6">
         {% csrf_token %}
-        {{ form.non_field_errors }}
+        {% if form.non_field_errors %}<div class="field-error">{{ form.non_field_errors }}</div>{% endif %}
         {% for field in form %}
-            <label>
-                <span>{{ field.label }}</span>
-                {{ field }}
-                {% if field.errors %}<small>{{ field.errors|striptags }}</small>{% endif %}
-            </label>
+            {% include "components/field.html" %}
         {% endfor %}
-        <button class="button" type="submit">Save</button>
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">{% trans "Сохранить" %}</button>
     </form>
 </section>
 {% endblock %}

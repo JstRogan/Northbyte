@@ -1,17 +1,21 @@
-<article class="article-card">
-    <a href="{{ article.get_absolute_url }}" class="article-image-link">
-        <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-image">
+{% load i18n %}
+<article class="card group flex flex-col overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl motion-safe:animate-fade-in">
+    <a href="{{ article.get_absolute_url }}" class="block overflow-hidden">
+        <img src="{{ article.image_url }}" alt="{{ article.title }}" loading="lazy"
+             class="aspect-video w-full bg-muted object-cover transition-transform duration-300 group-hover:scale-105">
     </a>
-    <div class="article-card-body">
-        <div class="meta-line">
-            <a href="{% url 'articles:category_detail' article.category.slug %}">{{ article.category.name }}</a>
-            <span>{{ article.created_at|date:"d M Y" }}</span>
+    <div class="flex flex-1 flex-col gap-3 p-5">
+        <div class="flex items-center gap-2">
+            <a href="{% url 'articles:category_detail' article.category.slug %}" class="chip-category">{{ article.category.name }}</a>
+            <span class="font-mono text-xs text-muted-foreground">{{ article.created_at|date:"d.m.Y" }}</span>
         </div>
-        <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
-        <p>{{ article.excerpt }}</p>
-        <div class="card-footer">
-            <a href="{% url 'accounts:author_detail' article.author.username %}">{{ article.author.username }}</a>
-            <span>Rating {{ article.average_rating }}</span>
+        <h2 class="font-display text-lg font-semibold leading-snug">
+            <a href="{{ article.get_absolute_url }}" class="hover:text-primary">{{ article.title }}</a>
+        </h2>
+        <p class="line-clamp-3 text-sm text-muted-foreground">{{ article.excerpt }}</p>
+        <div class="mt-auto flex items-center justify-between gap-2 pt-1">
+            <a href="{% url 'accounts:author_detail' article.author.username %}" class="font-mono text-xs text-muted-foreground hover:text-primary">@{{ article.author.username }}</a>
+            <span class="chip-rating">★ {{ article.average_rating }}</span>
         </div>
     </div>
 </article>

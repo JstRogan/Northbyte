@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 221 83% 53%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 221 83% 53%;
+        --rating: 38 92% 45%;
+        --radius: 0.65rem;
+    }
+
+    [data-theme="dark"] {
+        --background: 240 10% 5%;
+        --foreground: 0 0% 98%;
+        --card: 240 8% 7.5%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 6%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 217 91% 64%;
+        --primary-foreground: 240 10% 6%;
+        --secondary: 240 5% 13%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 5% 13%;
+        --muted-foreground: 240 5% 65%;
+        --accent: 240 5% 15%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 72% 55%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 240 5% 16%;
+        --input: 240 5% 18%;
+        --ring: 217 91% 64%;
+        --rating: 38 95% 58%;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground font-sans antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-10 px-4
+        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+        focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none cursor-pointer;
+    }
+    .btn-primary { @apply bg-primary text-primary-foreground hover:bg-primary/90; }
+    .btn-secondary { @apply border border-border bg-secondary text-secondary-foreground hover:bg-accent; }
+    .btn-ghost { @apply text-muted-foreground hover:bg-accent hover:text-foreground; }
+    .btn-destructive { @apply border border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground; }
+    .btn-sm { @apply h-9 px-3 text-sm; }
+    .btn-icon { @apply h-9 w-9 px-0; }
+
+    .input {
+        @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm
+        placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+        focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    }
+    textarea.input { @apply h-auto min-h-[96px] resize-y; }
+
+    .card { @apply rounded-lg border border-border bg-card text-card-foreground; }
+
+    .badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium font-mono; }
+    .chip-category { @apply badge bg-primary/10 text-primary; }
+    .chip-rating { @apply badge gap-1 border border-rating/40 text-rating; }
+    .chip-status { @apply badge border border-border text-muted-foreground; }
+
+    .nav-link { @apply rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground; }
+    .field-label { @apply text-sm font-medium text-foreground; }
+    .field-error { @apply text-sm text-destructive; }
+    .caret { @apply text-primary motion-safe:animate-pulse; }
+
+    .dropdown-menu { @apply absolute right-0 mt-2 w-52 origin-top-right rounded-lg border border-border bg-popover p-1 text-popover-foreground shadow-xl; }
+    .dropdown-item { @apply flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent; }
+
+    .seg { @apply inline-flex overflow-hidden rounded-md border border-border; }
+    .seg-btn { @apply px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:bg-accent; }
+    .seg-btn-active { @apply bg-primary text-primary-foreground hover:bg-primary; }
+
+    .avatar { @apply grid place-items-center overflow-hidden rounded-full bg-primary/15 font-display font-semibold text-primary; }
+}

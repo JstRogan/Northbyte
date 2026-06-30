@@ -1,28 +1,24 @@
-{% extends "base.html" %}
+{% extends "base_app.html" %}
+{% load i18n %}
 {% block title %}{{ profile_user.username }} - Northbyte{% endblock %}
 {% block content %}
-<section class="section-head user-profile">
-    <div class="user-info">
-        {% if profile_user.avatar %}
-            <img src="{{ profile_user.avatar.url }}" alt="{{ profile_user.username }}" class="profile-avatar">
-        {% else %}
-            <div class="avatar-placeholder">{{ profile_user.username|first|upper }}</div>
-        {% endif %}
-        <div class="user-details">
-            <p class="eyebrow">Author</p>
-            <h1>{{ profile_user.username }}</h1>
-            {% if profile_user.bio %}
-                <p class="user-bio">{{ profile_user.bio }}</p>
-            {% endif %}
-            <p class="user-role">{{ profile_user.get_role_display }}</p>
-        </div>
+<div class="flex items-center gap-5">
+    <span class="avatar h-20 w-20 text-3xl">
+        {% if profile_user.avatar %}<img src="{{ profile_user.avatar.url }}" alt="" class="h-full w-full object-cover">{% else %}{{ profile_user.username|first|upper }}{% endif %}
+    </span>
+    <div>
+        <p class="font-mono text-xs uppercase tracking-wide text-muted-foreground">{% if profile_user.is_superuser %}{% trans "Супер админ" %}{% else %}{{ profile_user.get_role_display }}{% endif %}</p>
+        <h1 class="font-display text-3xl font-bold">@{{ profile_user.username }}</h1>
+        {% if profile_user.bio %}<p class="mt-1 max-w-xl text-muted-foreground">{{ profile_user.bio }}</p>{% endif %}
     </div>
-</section>
-<div class="article-grid">
+</div>
+
+<h2 class="mb-6 mt-10 font-display text-xl font-semibold">{% trans "Статьи автора" %}</h2>
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {% for article in articles %}
         {% include "articles/_article_card.html" %}
     {% empty %}
-        <p class="empty">No published articles.</p>
+        <p class="font-mono text-sm text-muted-foreground">{% trans "Пока нет опубликованных статей." %}</p>
     {% endfor %}
 </div>
 {% endblock %}

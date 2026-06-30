@@ -1,0 +1,17 @@
+{% comment %}Interactive 1–5 rating. Expects: article, user_rating{% endcomment %}
+{% load i18n %}
+<form method="post" action="{% url 'articles:rate' article.slug %}"
+      x-data="{ current: {{ user_rating.score|default:0 }}, hover: 0 }"
+      class="flex items-center gap-3">
+    {% csrf_token %}
+    <span class="font-mono text-xs uppercase tracking-wide text-muted-foreground">{% trans "Оценить" %}</span>
+    <div class="flex items-center gap-0.5" @mouseleave="hover = 0">
+        {% for _ in "12345" %}
+            <button type="submit" name="score" value="{{ forloop.counter }}"
+                    @mouseenter="hover = {{ forloop.counter }}"
+                    class="text-2xl leading-none transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+                    :class="(hover || current) >= {{ forloop.counter }} ? 'text-rating' : 'text-muted-foreground/40'"
+                    aria-label="{{ forloop.counter }}">★</button>
+        {% endfor %}
+    </div>
+</form>
