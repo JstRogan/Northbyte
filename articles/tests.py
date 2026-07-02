@@ -1,11 +1,12 @@
-from django.contrib.auth.models import Group, User
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
 from articles.models import Article, ArticleRating, Bookmark, Category
 
+User = get_user_model()
 
-IMAGE_URL = "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+IMAGE_URL = "https://example.com/media/sample.jpg"
 
 
 class ArticleWorkflowTests(TestCase):
@@ -17,9 +18,8 @@ class ArticleWorkflowTests(TestCase):
             "editor",
             "editor@example.com",
             "pass12345",
-            is_staff=True,
+            role=User.Role.ADMIN,
         )
-        self.admin.groups.add(Group.objects.get(name="news_admin"))
 
     def make_article(self, author=None, status=Article.Status.PUBLISHED, title="Django news"):
         article = Article(
@@ -65,6 +65,24 @@ class ArticleWorkflowTests(TestCase):
         hidden_response = self.client.get(reverse("articles:detail", kwargs={"slug": article.slug}))
         self.assertEqual(hidden_response.status_code, 403)
 
+    def test_admin_article_published_without_moderation(self):
+        self.client.login(username="editor", password="pass12345")
+
+        self.client.post(
+            reverse("articles:create"),
+            {
+                "title": "Editor story",
+                "image_url": IMAGE_URL,
+                "excerpt": "Preview",
+                "content": "Article body",
+                "category": self.category.id,
+            },
+        )
+
+        article = Article.objects.get(title="Editor story")
+        self.assertEqual(article.status, Article.Status.PUBLISHED)
+        self.assertIsNotNone(article.published_at)
+
     def test_admin_can_approve_article(self):
         article = self.make_article(status=Article.Status.PENDING)
         self.client.login(username="editor", password="pass12345")
@@ -77,6 +95,13 @@ class ArticleWorkflowTests(TestCase):
         article.refresh_from_db()
         self.assertEqual(article.status, Article.Status.PUBLISHED)
         self.assertIsNotNone(article.published_at)
+
+    def test_moderation_queue_closed_for_regular_user(self):
+        self.client.login(username="reader", password="pass12345")
+
+        response = self.client.get(reverse("articles:moderation_queue"))
+
+        self.assertEqual(response.status_code, 302)
 
     def test_popular_page_requires_average_rating_four_or_more(self):
         popular = self.make_article(title="Popular")

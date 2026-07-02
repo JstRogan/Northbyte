@@ -4,7 +4,7 @@
 {% block content %}
 <section class="mb-6 flex items-center justify-between gap-4">
     <h1 class="font-display text-2xl font-bold">{% trans "Мои статьи" %}</h1>
-    <a href="{% url 'articles:create' %}" class="btn btn-primary">{% trans "Создать статью" %}</a>
+    <a href="{% url 'articles:create' %}" class="btn btn-primary">{% include "icons/plus.html" %}{% trans "Создать статью" %}</a>
 </section>
 <div class="card overflow-x-auto">
     <table class="w-full text-sm">

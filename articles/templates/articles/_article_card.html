@@ -15,7 +15,7 @@
         <p class="line-clamp-3 text-sm text-muted-foreground">{{ article.excerpt }}</p>
         <div class="mt-auto flex items-center justify-between gap-2 pt-1">
             <a href="{% url 'accounts:author_detail' article.author.username %}" class="font-mono text-xs text-muted-foreground hover:text-primary">@{{ article.author.username }}</a>
-            <span class="chip-rating">★ {{ article.average_rating }}</span>
+            <span class="chip-rating">{% include "icons/star.html" with class="h-3.5 w-3.5" fill="currentColor" %}{{ article.average_rating }}</span>
         </div>
     </div>
 </article>

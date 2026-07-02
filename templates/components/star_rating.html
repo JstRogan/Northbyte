@@ -9,9 +9,9 @@
         {% for _ in "12345" %}
             <button type="submit" name="score" value="{{ forloop.counter }}"
                     @mouseenter="hover = {{ forloop.counter }}"
-                    class="text-2xl leading-none transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+                    class="rounded p-0.5 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     :class="(hover || current) >= {{ forloop.counter }} ? 'text-rating' : 'text-muted-foreground/40'"
-                    aria-label="{{ forloop.counter }}">★</button>
+                    aria-label="{{ forloop.counter }}">{% include "icons/star.html" with class="h-6 w-6" fill="currentColor" %}</button>
         {% endfor %}
     </div>
 </form>

@@ -8,7 +8,7 @@
         <h1 class="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">{% if page_title %}{{ page_title }}{% else %}{% trans "Свежие статьи" %}{% endif %}</h1>
     </div>
     {% if user.is_authenticated %}
-        <a href="{% url 'articles:create' %}" class="btn btn-primary">{% trans "Создать статью" %}</a>
+        <a href="{% url 'articles:create' %}" class="btn btn-primary">{% include "icons/plus.html" %}{% trans "Создать статью" %}</a>
     {% endif %}
 </section>
 
@@ -17,14 +17,17 @@
         {% for article in page_obj %}
             {% include "articles/_article_card.html" %}
         {% empty %}
-            <p class="font-mono text-sm text-muted-foreground">{% trans "Пока нет статей." %}</p>
+            <div class="col-span-full flex flex-col items-center gap-3 py-16 text-muted-foreground">
+                {% include "icons/file.html" with class="h-8 w-8" %}
+                <p class="font-mono text-sm">{% trans "Пока нет статей." %}</p>
+            </div>
         {% endfor %}
     </div>
     {% if page_obj.has_other_pages %}
         <div class="mt-10 flex items-center justify-center gap-4 font-mono text-sm text-muted-foreground">
-            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="text-primary hover:underline">← {% trans "Назад" %}</a>{% endif %}
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="inline-flex items-center gap-1.5 text-primary hover:underline">{% include "icons/arrow-left.html" %}{% trans "Назад" %}</a>{% endif %}
             <span>{% blocktrans with n=page_obj.number total=page_obj.paginator.num_pages %}Стр. {{ n }} из {{ total }}{% endblocktrans %}</span>
-            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="text-primary hover:underline">{% trans "Вперёд" %} →</a>{% endif %}
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="inline-flex items-center gap-1.5 text-primary hover:underline">{% trans "Вперёд" %}{% include "icons/arrow-right.html" %}</a>{% endif %}
         </div>
     {% endif %}
 {% endif %}

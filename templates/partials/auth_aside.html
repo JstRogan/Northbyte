@@ -8,9 +8,9 @@
     <div class="relative space-y-6">
         <h2 class="font-display text-4xl font-bold leading-tight">{% trans "Площадка для тех, кто пишет код и про код." %}</h2>
         <ul class="space-y-3 text-white/70">
-            <li class="flex items-center gap-3"><span class="text-primary">▹</span>{% trans "Статьи о backend, frontend, AI и безопасности" %}</li>
-            <li class="flex items-center gap-3"><span class="text-primary">▹</span>{% trans "Оценки, рейтинги и закладки" %}</li>
-            <li class="flex items-center gap-3"><span class="text-primary">▹</span>{% trans "Сообщество авторов и модерация" %}</li>
+            <li class="flex items-center gap-3"><span class="text-primary">{% include "icons/newspaper.html" with class="h-5 w-5 shrink-0" %}</span>{% trans "Статьи о backend, frontend, AI и безопасности" %}</li>
+            <li class="flex items-center gap-3"><span class="text-primary">{% include "icons/star.html" with class="h-5 w-5 shrink-0" %}</span>{% trans "Оценки, рейтинги и закладки" %}</li>
+            <li class="flex items-center gap-3"><span class="text-primary">{% include "icons/shield.html" with class="h-5 w-5 shrink-0" %}</span>{% trans "Сообщество авторов и модерация" %}</li>
         </ul>
     </div>
 

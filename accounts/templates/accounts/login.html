@@ -6,9 +6,10 @@
     {% include "partials/auth_aside.html" %}
     <div class="flex w-full flex-col lg:w-1/2">
         <div class="flex items-center justify-between p-6">
-            <a href="{% url 'articles:list' %}" class="font-mono text-sm text-muted-foreground hover:text-foreground">← {% trans "На главную" %}</a>
+            <a href="{% url 'articles:list' %}" class="inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground hover:text-foreground">{% include "icons/arrow-left.html" %}{% trans "На главную" %}</a>
             <button type="button" onclick="toggleTheme()" class="btn btn-ghost btn-icon" aria-label="{% trans 'Сменить тему' %}">
-                <span class="hidden text-base dark:inline">☾</span><span class="text-base dark:hidden">☀</span>
+                <span class="hidden dark:inline-flex">{% include "icons/moon.html" with class="h-5 w-5" %}</span>
+                <span class="inline-flex dark:hidden">{% include "icons/sun.html" with class="h-5 w-5" %}</span>
             </button>
         </div>
         <div class="flex flex-1 items-center justify-center px-6 pb-16">
@@ -25,7 +26,7 @@
                     <button type="submit" class="btn btn-primary w-full" :disabled="loading">
                         <span x-show="!loading">{% trans "Войти" %}</span>
                         <span x-show="loading" x-cloak class="inline-flex items-center gap-2">
-                            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+                            {% include "icons/spinner.html" with class="h-4 w-4 animate-spin" %}
                             {% trans "Вход…" %}
                         </span>
                     </button>

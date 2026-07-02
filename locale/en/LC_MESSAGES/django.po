@@ -283,3 +283,6 @@ msgstr "Log out"
 
 msgid "Меню"
 msgstr "Menu"
+
+msgid "Закрыть"
+msgstr "Close"
